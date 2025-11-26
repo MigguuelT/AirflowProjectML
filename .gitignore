@@ -1,0 +1,12 @@
+# Arquivos sensíveis e de banco de dados
+*.db
+*.sqlite
+
+# Arquivos de log e cache
+*.log
+__pycache__/
+logs/
+.idea/
+
+# Arquivo específico que você excluiu
+standalone_admin_password.txt

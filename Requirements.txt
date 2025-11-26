@@ -1,0 +1,5 @@
+# Dependências de Produção (já instaladas, mas bom ter para referência)
+apache-airflow==2.10.1
+jupyter
+scikit-learn
+pandas
