@@ -7,6 +7,7 @@
 __pycache__/
 logs/
 .idea/
+data/
 
 # Arquivo específico que você excluiu
 standalone_admin_password.txt
