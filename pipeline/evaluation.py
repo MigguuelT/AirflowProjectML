@@ -24,7 +24,7 @@ def save_metrics(metrics_dir, model_name, accuracy, roc_auc):
     """
     Salva as métricas em um arquivo CSV, criando-o ou anexando a nova linha.
     """
-    metrics_path = os.path.join(metrics_dir, 'metrics.csv')
+    metrics_path = os.path.join(metrics_dir, 'train_metrics.csv')
 
     # Prepara a nova linha de métricas
     new_metric = pd.DataFrame([{
@@ -46,7 +46,7 @@ def save_metrics(metrics_dir, model_name, accuracy, roc_auc):
 
 
 def select_production_model(metrics_dir):
-    metrics_path = os.path.join(metrics_dir, 'metrics.csv')
+    metrics_path = os.path.join(metrics_dir, 'train_metrics.csv')
 
     if not os.path.exists(metrics_path):
         print("Erro: Arquivo de métricas não encontrado. Não é possível selecionar o modelo.")
@@ -84,3 +84,23 @@ def select_production_model(metrics_dir):
     print(f"Métricas Vencedoras: ROC AUC={best_model_row['roc_auc']:.4f}, Accuracy={best_model_row['accuracy']:.4f}")
 
     return best_model_name
+
+
+def log_production_metrics(metrics_dir, accuracy, roc_auc):
+    """Salva a performance do modelo em produção no log de avaliação."""
+    log_path = os.path.join(metrics_dir, 'production_evaluation_metrics.csv')
+
+    new_entry = pd.DataFrame([{
+        'evaluation_date': datetime.now().isoformat(sep=' ', timespec='seconds'),
+        'accuracy': accuracy,
+        'roc_auc': roc_auc
+    }])
+
+    if os.path.exists(log_path):
+        existing_logs = pd.read_csv(log_path)
+        updated_logs = pd.concat([existing_logs, new_entry], ignore_index=True)
+        updated_logs.to_csv(log_path, index=False)
+    else:
+        new_entry.to_csv(log_path, index=False)
+
+    print(f"Produção de métricas de avaliação salvas em: {log_path}")

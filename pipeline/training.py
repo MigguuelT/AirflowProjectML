@@ -26,3 +26,7 @@ def train_bayes(x_train, y_train):
     model = GaussianNB()
     model.fit(x_train, y_train)
     return model
+
+def predict_model(x_test, model):
+    y_pred = model.predict(x_test)
+    return y_pred
